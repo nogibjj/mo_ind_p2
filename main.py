@@ -1,37 +1,46 @@
 """
-Data Dump to the Postgres DB using python instead of Rust since the primary task is query with Rust
+Main cli or app entry point
 """
 
-from py_src.man_display_stat import descriptive_statistics
-import psutil
-import time
+import psycopg2
+import tabulate
+from tabulate import tabulate
+import os
+
+# Connect to the database
+conn = psycopg2.connect(
+    host=os.environ["PGHOST"],
+    port=os.environ["PGPORT"],
+    user=os.environ["PGUSER"],
+    database=os.environ["PGDATABASE"],
+)
+
+cur = conn.cursor()
+cur.execute(
+    """
+SELECT students.name, students.duke_id, 
+            COUNT(enrollments.course_id) AS total_courses, 
+            SUM(CAST(enrollments.grade AS DECIMAL(10,2))) AS total_grade_points, 
+            AVG(CAST(enrollments.grade AS DECIMAL(10,2))) AS score
+FROM students
+INNER JOIN enrollments ON students.id = enrollments.student_id
+GROUP BY students.name, students.duke_id
+ORDER BY score DESC;
+"""
+)
+
+results = cur.fetchall()
 
 
-def display_main():
-    csv_file_path = "datasets/cereal.csv"
-    selected_columns = ["fat"]
+cur.close()
+conn.close()
+headers = ["Name", "Duke ID", "Total Courses", "Total Grade Points", "Average_Score"]
+print(results)
+print(tabulate(results, headers=headers, tablefmt="pipe"))
 
-    # Measure the start time
-    start_time = time.time()
+# Save the results to a CSV file
+with open("results.csv", "w") as f:
+    f.write("name,duke_id,total_courses,total_grade_points,score\n")
 
-    # Measure the start memory usage
-    process = psutil.Process()
-    start_memory_usage = process.memory_percent()
-
-    result = descriptive_statistics(csv_file_path, selected_columns)
-
-    end_time = time.time()
-
-    end_memory_usage = process.memory_percent()
-
-    elapsed_time = end_time - start_time
-
-    if result is not None:
-        for col, std in result.items():
-            print(f"{col} Standard Deviation: {std:.4f}")
-    print(f"Memory Usage: {end_memory_usage:.6f}%")
-    print(f"Elapsed time: {elapsed_time:.6f} seconds")
-
-
-if __name__ == "__main__":
-    display_main()
+    for result in results:
+        f.write("{},{},{},{},{}\n".format(*result))
