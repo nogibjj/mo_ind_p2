@@ -1,5 +1,5 @@
 """
-Week two script
+Data Dump to the Postgres DB using python instead of Rust since the primary task is query with Rust
 """
 
 from py_src.man_display_stat import descriptive_statistics
