@@ -25,7 +25,7 @@ pub fn connect_db(path: &str) -> Result<Connection> {
 
 pub fn create_student(conn: &Connection, name: &str, major: &str, grad_year: &str) -> Result<()> {
     conn.execute(
-        "INSERT INTO students (name, major, gradyear) VALUES (?1, ?2, ?3)",
+        "INSERT INTO students (name, major, grad_year) VALUES (?1, ?2, ?3)",
         [name, major, &grad_year],
     )?;
     
