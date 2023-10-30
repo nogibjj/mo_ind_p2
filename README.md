@@ -101,6 +101,6 @@ fn prompt_int(prompt: &str) -> i32 {
 
 ## Disclosure
 Some of these code was generated using AI tools but I fully understand what is going on . 
-## References
 
-* [rust-cli-template](https://github.com/kbknapp/rust-cli-template)
+### Additional 
+We also created a postgres 
