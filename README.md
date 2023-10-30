@@ -96,7 +96,7 @@ fn prompt_int(prompt: &str) -> i32 {
 }
 ```
 
-### Rust performane 
+### Example Usage
 ![Example](/images/cli.png?raw=true)
 
 ## Disclosure
