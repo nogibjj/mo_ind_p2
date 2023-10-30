@@ -103,4 +103,4 @@ fn prompt_int(prompt: &str) -> i32 {
 Some of these code was generated using AI tools but I fully understand what is going on . 
 
 ### Additional 
-We also created a postgres 
+We also created a postgres azure cloud database and provided the python connection and finalising the Rust CLI interaction with the cloud database
