@@ -78,5 +78,5 @@ We also created a postgres azure cloud database and provided the python connecti
 This project is a great example of how Rust, SQLite, and GitHub Copilot can be used to create a high-quality command-line utility. The project is easy to use and well-documented, and it includes a number of features that are useful for managing a student database.
 
 ### Video Demo
-
+You can watch the demo video [here](https://www.youtube.com/watch?v=uFH37PKGqDI).
 
